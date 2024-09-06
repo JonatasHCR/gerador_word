@@ -1,0 +1,23 @@
+{% include "global/partials/head.html" %}
+
+<form action={% url "dados" %} method="post">
+    {% csrf_token %}
+    <div class="mb-3 row">
+        <label for="staticEmail" class="col-sm-2 col-form-label">Modelo</label>
+        <div class="col-sm-10">
+          <input type="text" readonly class="form-control-plaintext" id="staticEmail" value={% block nome_modelo %}{{nome_modelo}}{% endblock nome_modelo %}>
+        </div>
+    </div>
+      
+    <div class="input-group mb-3">
+        <label for="staticEmail" class="col-sm-2 col-form-label">coisa</label>
+        <div class="input-group-text">
+          <input class="form-check-input mt-0" type="checkbox" value="" aria-label="Checkbox for following text input">
+        </div>
+        <input type="text" class="form-control" aria-label="Text input with checkbox">
+    </div>
+    <div>
+        <button type="submit" value='enviar' name='botao' class="btn btn-dark">Enviar</button>
+    </div>
+</form>
+{% include "global/partials/fim.html" %}

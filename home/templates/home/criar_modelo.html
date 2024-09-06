@@ -1,0 +1,17 @@
+{% include "global/partials/head.html" %}
+<div>
+    <form action={% url "criar_modelo" %} method="post">
+        <div class="row g-3">
+            <div class="col">
+                <input type="text" name='nome_modelo' class="form-control" placeholder="Nome do Modelo" aria-label="First name">
+            </div>
+            <div class="col">
+                <input type="text" name= 'quant_var' class="form-control" placeholder="Quantidade de Variaveis" aria-label="Last name">
+            </div>
+            <div class="col-md-2">
+                <button type="submit" name="variaveis" class="btn btn-primary">Enviar</button>
+            </div>
+        </div>
+    </form>      
+</div>
+{% include "global/partials/fim.html" %}

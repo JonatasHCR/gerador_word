@@ -1,34 +1,85 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="{% static "estilo.css" %}">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
         <title>Gerador de Word</title>
     </head>
     <body>
-        <h2>Formulário de Geração</h2>
-        <div class="sidebar">
-            <h2>Menu Lateral</h2>
-            <ul>
-                {% for pas,sub,arq in modelos %}
-                    {% for arquivos in arq %}
-                        <li>
-                            <a href="#">{{ arquivos }}<a>
-                        </li>
-                    {% endfor %}
-                {% endfor %}
-            </ul>
-        </div>
-    
-        <div class="main-content">
-            <h1>Conteúdo Principal</h1>
-            <p>Este é o conteúdo principal da página. A barra lateral pode ser usada para navegação ou outras informações importantes.</p>
-        </div>
-
+        <div class="collapse" id="navbarToggleExternalContent" data-bs-theme="dark">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <div class="container-fluid">
+                  <a class="navbar-brand" href={% url "home" %}>Gerador Word</a>
+                  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown" aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                  </button>
+                  <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+                    <ul class="navbar-nav">
+                        <div>
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href={% url "criar_modelo" %}>Criar Modelo</a>
+                              </li>
+                        </div>
+                        <div>
+                        <p class="d-inline-flex gap-1">
+                            <button class="btn btn-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                              Modelos Word
+                            </button>
+                          </p>
+                          <div class="collapse" id="collapseExample">
+                            <div class="card card-body">
+                                <form action={% url "dados" %} method="post">
+                                    {% csrf_token %}
+                                    {% for pas,sub,arq in modelos %}
+                                        {% for arquivo in arq %}
+                                            <div>    
+                                                <button type="submit" value= {{arquivo}} name='botao' class="btn btn-secondary">{{arquivo}}</button>
+                                            </div>
+                                        {% endfor %}
+                                    {% endfor %}
+                                </form>
+                            </div>
+                          </div>
+                        </div>
+                        <div>
+                            <p class="d-inline-flex gap-1">
+                                <a class="btn btn-dark" data-bs-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">PDF(EM BREVE)</a>
+                              </p>
+                              <div>
+                              <div class="row">
+                                <div class="col">
+                                  <div class="collapse multi-collapse" id="multiCollapseExample1">
+                                    <div class="card card-body">
+                                        <div>    
+                                            <button type="submit" name='botao' class="btn btn-secondary">TESTE</button>
+                                        </div>
+                                    </div>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ul>
+                  </div>
+                </div>
+              </nav>
+          </div>
+          <nav class="navbar navbar-dark bg-dark">
+            <div class="container-fluid">
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+            </div>
+          </nav>
         <!-- <form action={% url "dados" %} method="post">
             {% csrf_token %}
+                                            {% for pas,sub,arq in modelos %}
+                                    {% for arquivo in arq %}
+                                    <button type="submit" value= {{arquivo}} name='botao' class="btn btn-secondary">{{arquivo}}</button>
+                                    {% endfor %}
+                                {% endfor %}
             <label for="aaa">Data:</label>
             <input type="text" id="aaa" name="aaa" required>
 

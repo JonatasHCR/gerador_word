@@ -15,7 +15,8 @@ def home(request):
     )
 
 def dados(request):
-    if request.method == 'POST':
+    context_ = {'modelos': walk(caminho_modelo)}
+    if request.method == 'POST' and request.POST.get('botao') == 'enviar':
         from .functions.trabalho import format_date,escrever_money,format_dinheiro,documet_alterar
         dados_dict = {}
         for chave,valor in request.POST.items():
@@ -39,10 +40,19 @@ def dados(request):
 
      
             dados_dict.update([(chave.upper(),valor)])
-        documet_alterar(dados_dict.items(),caminho_modelo)
-        print(dados_dict.items())
-             
+        documet_alterar(dados_dict.items(),caminho_modelo) 
+    if request.method == 'POST':
+        context_.update([('nome_modelo',request.POST.get('botao'))])   
     return render(
         request,
-        'home/dados.html'
+        'home/dados.html',
+        context_
+    )
+
+def criar_model(request):
+    context_ = {'modelos': walk(caminho_modelo)}
+    return render(
+        request,
+        'home/criar_modelo.html',
+        context_
     )
