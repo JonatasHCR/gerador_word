@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 from pathlib import Path
 from os import walk
-
+#salvando o caminho do modelo
 caminho_modelo = Path(__file__).parent / 'functions' / 'modelos'
 
 # Create your views here.
@@ -16,33 +16,16 @@ def home(request):
 
 def dados(request):
     context_ = {'modelos': walk(caminho_modelo)}
-    if request.method == 'POST' and request.POST.get('botao') == 'enviar':
-        from .functions.trabalho import format_date,escrever_money,format_dinheiro,documet_alterar
-        dados_dict = {}
-        for chave,valor in request.POST.items():
-            valor = valor.strip()
-            match chave:
-                case 'csrfmiddlewaretoken':
-                    continue
-                case 'hhh':
-                    dinheiro_escrito = escrever_money(valor)
-                    valor = format_dinheiro(valor)
-                    lista = [['LLL',dinheiro_escrito],[chave.upper(),valor]]
-                    dados_dict.update(lista)
-                    continue
-                case 'aaa':
-                    valor = format_date(valor)
-                    dados_dict.update([(chave.upper(),valor)])
-                    continue
-                case 'xxx':
-                    valor = f'Medição n.º {valor}'
-                    dados_dict.update([(chave.upper(),valor)])
-
-     
-            dados_dict.update([(chave.upper(),valor)])
-        documet_alterar(dados_dict.items(),caminho_modelo) 
     if request.method == 'POST':
-        context_.update([('nome_modelo',request.POST.get('botao'))])   
+        match request.POST.get('botao'):
+            case 'formulario_dados':
+                from .functions.formatando_dados import FormatAll
+                from .functions.alterando_documento import gerando_documento
+                
+                dados = FormatAll(request.POST.items())
+                gerando_documento(dados.dados_dict.items(),caminho_modelo)
+            case _: 
+                context_.update([('nome_modelo',request.POST.get('botao'))])   
     return render(
         request,
         'home/dados.html',

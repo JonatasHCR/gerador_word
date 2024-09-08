@@ -8,7 +8,7 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-set VIRTUAL_ENV=C:\Users\UFC\Documents\pasta_comp\trabalho\venv
+set VIRTUAL_ENV=C:\Users\Micro\OneDrive\Documentos\Trabalho_ufc\gerador_word\venv
 
 if not defined PROMPT set PROMPT=$P$G
 
