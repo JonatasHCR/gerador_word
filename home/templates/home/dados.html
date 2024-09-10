@@ -5,17 +5,35 @@
     <div class="mb-3 row">
         <label for="staticEmail" class="col-sm-2 col-form-label">Modelo</label>
         <div class="col-sm-10">
-          <input type="text" readonly class="form-control-plaintext" id="staticEmail" value={% block nome_modelo %}{{nome_modelo}}{% endblock nome_modelo %}>
+          <input type="text" readonly class="form-control-plaintext" name="nome_modelo" id="staticEmail" value= {{nome_modelo}}>
         </div>
     </div>
-      
+    {% for ref,val in dados_comp %}
     <div class="input-group mb-3">
-        <label for="staticEmail" class="col-sm-2 col-form-label">coisa</label>
+        <label for="staticEmail" class="col-sm-2 col-form-label">{{ref}}</label>
+        {% if valor_antes %}
         <div class="input-group-text">
-          <input class="form-check-input mt-0" type="checkbox" value="" aria-label="Checkbox for following text input">
+          <input class="form-check-input mt-0" type="checkbox" value={{valor_antes}} aria-label="Checkbox for following text input">
         </div>
-        <input type="text" class="form-control" aria-label="Text input with checkbox">
+        {% endif %}
+        <input type="text" class="form-control" name={{val}} aria-label="Text input with checkbox">
     </div>
+    
+    {% endfor %}
+    <div class="input-group mb-3">
+      <label for="staticEmail" class="col-sm-2 col-form-label">Caminho de Saída</label>
+      <div class="input-group-text">
+        <input class="form-check-input mt-0" type="checkbox" value="" aria-label="Checkbox for following text input">
+      </div>
+      <input type="text" class="form-control" name="caminho_saida" aria-label="Text input with checkbox">
+  </div>
+  <div class="input-group mb-3">
+    <label for="staticEmail" class="col-sm-2 col-form-label">Nome do Arquivo</label>
+    <div class="input-group-text">
+      <input class="form-check-input mt-0" type="checkbox" value="" aria-label="Checkbox for following text input">
+    </div>
+    <input type="text" class="form-control" name="arquivo_saida" aria-label="Text input with checkbox">
+</div>
     <div>
         <button type="submit" value='formulario_dados' name='botao' class="btn btn-dark">Enviar</button>
     </div>

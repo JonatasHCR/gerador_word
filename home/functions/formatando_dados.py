@@ -14,7 +14,7 @@ class FormatAll:#classe onde serão feitas todas as formatações necessárias(n
                 case 'csrfmiddlewaretoken':
                     continue
                 
-                case 'hhh':
+                case 'HHH':
                     #chaves com letras repetidas para evitar que na 
                     #digitação seja possível escrever elas, é porque o python 
                     #estava separando as palavras  por exemplo NUMERO_FATURA -> 
@@ -26,12 +26,12 @@ class FormatAll:#classe onde serão feitas todas as formatações necessárias(n
                     self.dados_dict.update(lista)
                     continue
                 
-                case 'aaa':
+                case 'AAA':
                     valor = self.format_date(valor)
                     self.dados_dict.update([(chave.upper(),valor)])
                     continue
                 
-                case 'xxx':
+                case 'XXX':
                     valor = f'Medição n.º {valor}'
                     self.dados_dict.update([(chave.upper(),valor)])
             self.dados_dict.update([(chave.upper(),valor)])

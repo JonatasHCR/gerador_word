@@ -1,17 +1,64 @@
 {% include "global/partials/head.html" %}
 <div>
     <form action={% url "criar_modelo" %} method="post">
+        {% csrf_token %}
         <div class="row g-3">
             <div class="col">
-                <input type="text" name='nome_modelo' class="form-control" placeholder="Nome do Modelo" aria-label="First name">
+                <input type="text" name='nome_modelo' class="form-control" placeholder="Nome do Modelo" aria-label="Nome do Modelo">
             </div>
             <div class="col">
-                <input type="text" name= 'quant_var' class="form-control" placeholder="Quantidade de Variaveis" aria-label="Last name">
+                <input type="text" name= 'quant_var' class="form-control" placeholder="Quantidade de Variaveis" aria-label="Quantidade de Variaveis">
             </div>
             <div class="col-md-2">
-                <button type="submit" name="variaveis" class="btn btn-primary">Enviar</button>
+                <button type="submit" name="botao" value="variaveis_modelo" class="btn btn-primary">Enviar</button>
             </div>
         </div>
     </form>      
 </div>
+{% if formulario_modelo %}
+    <div>
+        <form action={% url "criar_modelo" %} method="post">
+            {% csrf_token %}
+            <div class="mb-3 row">
+                <label for="staticEmail" class="col-sm-2 col-form-label">Modelo</label>
+                <div class="col-sm-10">
+                    <input type="text" readonly class="form-control-plaintext" name="nome_modelo" id="staticEmail" value={% block nome_modelo %}{{nome_modelo}}{% endblock nome_modelo %}>
+                </div>
+            </div>
+            <div class="row">
+                <label for="staticEmail" class="col-sm-2 col-form-label">Exemplo</label>
+                <div class="col">
+                  <input type="text" class="form-control" placeholder="Nome da Variavel = PPP" aria-label="Nome da Variavel">
+                </div>
+                <div class="col">
+                  <input type="text" class="form-control" placeholder="Referencia da Variavel = Data" aria-label="Referencia da Variavel">
+                </div>
+              </div>
+            {% for campos in quant_var %}
+            <div class="row">
+                <label for="staticEmail" class="col-sm-2 col-form-label">Variavel: {{campos}}</label>
+                <div class="col">
+                  <input type="text" class="form-control" name="variavel" placeholder="Nome da Variavel" aria-label="Nome da Variavel">
+                </div>
+                <div class="col">
+                  <input type="text" class="form-control" name="ref_variavel" placeholder="Referencia da Variavel" aria-label="Referencia da Variavel">
+                </div>
+              </div>
+            {% endfor %}
+            <div>
+                <button type="submit" value='criando_modelo' name='botao' class="btn btn-dark">Enviar</button>
+            </div>
+        </form>
+    </div>
+{% endif %}
+{% if error_mensagem %}
+    <div>
+        <div class="alert alert-danger d-flex align-items-center" role="alert">
+            <svg class="bi flex-shrink-0 me-2" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+            <div>
+                {{error_mensagem}}
+            </div>
+        </div>
+    </div>
+{% endif %}
 {% include "global/partials/fim.html" %}

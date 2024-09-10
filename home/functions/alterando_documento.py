@@ -1,5 +1,7 @@
 import docx#pacote para abir o documento word, salvar, editar
+from pathlib import Path
 
+CAMINHO_MODELO = Path(__file__).parent / 'modelos'
 '''
 Local para ja com os dados tratados, usar o modelo para substituir, lembrando 
 que tera que criar uma pasta chamada 'modelos', ela foi barrada no gitignore
@@ -22,22 +24,14 @@ def substituindo_texto(paragraph, subst_text_list: list):
                     item.text = item.text.replace(old_text[0], new_text)
 
 def gerando_documento(variables_values: list, caminho_modelo):
-    cont = 0#apenas para remover essas varáveis, para nao ter risco de ter nome igual
-    for tuplas in list(variables_values):
+    for tuplas in variables_values:
         match tuplas[0]:
             case 'NOME_MODELO':
-                path_file_model = tuplas[1].strip() + '.doc'
-                variables_values.pop(cont)
-                cont += 1
+                path_file_model = tuplas[1].strip()
             case 'CAMINHO_SAIDA':
                 caminho_saida = tuplas[1]
-                variables_values.pop(cont)
-                cont += 1
             case 'ARQUIVO_SAIDA':
                 path_file_save = tuplas[1].strip() + '.doc'
-                variables_values.pop(cont)
-                cont += 1
-        cont += 1
         continue
     caminho_modelo = caminho_modelo / path_file_model
     caminho_saida = f'{caminho_saida}\\{path_file_save}'
@@ -48,5 +42,11 @@ def gerando_documento(variables_values: list, caminho_modelo):
         #depois de tudo ele usa o caminho de saída fornecido pelo usuário
         doc.save(caminho_saida)
     except:
-        print('Não foi possivel salvar o arquivo')#caso de erro(lembrando ta 
+        print('Não foi possível salvar o arquivo')#caso de erro(lembrando ta 
         #em processo de criação vou melhorar os erros)
+
+def gerando_modelo(nome_modelo):
+    nome_modelo = nome_modelo + '.doc'
+    caminho_modelo = CAMINHO_MODELO / nome_modelo
+    doc = docx.Document()
+    doc.save(caminho_modelo)
