@@ -8,7 +8,7 @@ caminho_modelo = Path(__file__).parent / 'functions' / 'modelos'
 
 # Create your views here.
 def home(request):
-    context_ = {'modelos': walk(caminho_modelo)}
+    context_ = {'modelos': list(walk(caminho_modelo))}
     return render(
         request,
         'home/index.html',
@@ -16,7 +16,7 @@ def home(request):
     )
 
 def dados(request):
-    context_ = {'modelos': walk(caminho_modelo)}
+    context_ = {'modelos': list(walk(caminho_modelo))}
     if request.method == 'POST':
         match request.POST.get('botao'):
             case 'formulario_dados':
@@ -60,7 +60,7 @@ def dados(request):
     )
 
 def criar_model(request):
-    context_ = {'modelos': walk(caminho_modelo)}
+    context_ = {'modelos': list(walk(caminho_modelo))}
     if request.method == 'POST':
         match request.POST.get('botao'):
             case 'variaveis_modelo':
@@ -90,9 +90,25 @@ def criar_model(request):
     )
 
 def modificar(request):
-    context_ = {'modelos': walk(caminho_modelo)}
+    context_ = {'modelos': list(walk(caminho_modelo))}
     if request.method == 'POST':
-        print(request.POST)
+        match request.POST.get('botao'):
+            case 'modificando_modelo':
+                print( request.POST)
+                nome = request.POST.get('nome_modelo')
+                variaveis = request.POST.getlist('variavel')
+                ref_variaveis = request.POST.getlist('ref_variavel')
+                default_variavel = request.POST.getlist('default_variavel')
+                
+                from .functions.criar_db_modelo import modificar
+                modificar(nome,variaveis,ref_variaveis,default_variavel)
+
+            case _:
+                nome_modelo = request.POST.get('botao')
+                from .functions.criar_db_modelo import retirar
+                dados = retirar(nome_modelo)
+                combinadas = [(dados[1][i], dados[0][i], dados[2][i]) for i in range(len(dados[0]))]
+                context_.update([('dados_comp',combinadas),('nome_modelo', nome_modelo)])
     return render(
         request,
         'home/modificar_modelo.html',

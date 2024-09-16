@@ -44,6 +44,27 @@
                           </div>
                         </div>
                         <div>
+                          <p class="d-inline-flex gap-1">
+                              <button class="btn btn-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample1" aria-expanded="false" aria-controls="collapseExample1">
+                                Modificar Modelos
+                              </button>
+                            </p>
+                            <div class="collapse" id="collapseExample1">
+                              <div class="card card-body">
+                                  <form action={% url "modificar" %} method="post">
+                                      {% csrf_token %}
+                                      {% for pas,sub,arq in modelos %}
+                                          {% for arquivo in arq %}
+                                              <div>    
+                                                  <button type="submit" value= {{arquivo}} name='botao' class="btn btn-secondary">{{arquivo}}</button>
+                                              </div>
+                                          {% endfor %}
+                                      {% endfor %}
+                                  </form>
+                              </div>
+                            </div>
+                          </div>
+                        <div>
                             <p class="d-inline-flex gap-1">
                                 <a class="btn btn-dark" data-bs-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">PDF(EM BREVE)</a>
                               </p>

@@ -1,6 +1,5 @@
 {% include "global/partials/head.html" %}
 
-{% if formulario_modelo %}
     <div>
         <form action={% url "modificar" %} method="post">
             {% csrf_token %}
@@ -10,37 +9,25 @@
                     <input type="text" readonly class="form-control-plaintext" name="nome_modelo" id="staticEmail" value={% block nome_modelo %}{{nome_modelo}}{% endblock nome_modelo %}>
                 </div>
             </div>
+            {% for campos in dados_comp %}
             <div class="row">
-                <label for="staticEmail" class="col-sm-2 col-form-label">Exemplo</label>
+                <label for="staticEmail" class="col-sm-2 col-form-label">Variavel:</label>
                 <div class="col">
-                  <input type="text" class="form-control" readonly placeholder="Nome da Variavel = PPP" aria-label="Nome da Variavel">
+                  <input type="text" class="form-control" name="variavel" value='{{campos.1}}' placeholder="Nome da Variavel" aria-label="Nome da Variavel">
                 </div>
                 <div class="col">
-                  <input type="text" class="form-control" readonly placeholder="Referencia da Variavel = Data" aria-label="Referencia da Variavel">
+                  <input type="text" class="form-control" name="ref_variavel" value='{{campos.0}}' placeholder="Referencia da Variavel" aria-label="Referencia da Variavel">
                 </div>
                 <div class="col">
-                    <input type="text" class="form-control" readonly placeholder="Valor Padrão da Variavel = 12/05/2024" aria-label="Valor Padrão da Variavel">
-                </div>
-              </div>
-            {% for campos in quant_var %}
-            <div class="row">
-                <label for="staticEmail" class="col-sm-2 col-form-label">Variavel: {{campos}}</label>
-                <div class="col">
-                  <input type="text" class="form-control" name="variavel" placeholder="Nome da Variavel" aria-label="Nome da Variavel">
-                </div>
-                <div class="col">
-                  <input type="text" class="form-control" name="ref_variavel" placeholder="Referencia da Variavel" aria-label="Referencia da Variavel">
-                </div>
-                <div class="col">
-                    <input type="text" class="form-control" name="default_variavel"  placeholder="Valor Padrão da Variavel" aria-label="Valor Padrão da Variavel">
+                    <input type="text" class="form-control" name="default_variavel" value='{{campos.2}}' placeholder="Valor Padrão da Variavel" aria-label="Valor Padrão da Variavel">
                 </div>
               </div>
             {% endfor %}
             <div>
-                <button type="submit" value='criando_modelo' name='botao' class="btn btn-dark">Enviar</button>
+                <button type="submit" value='modificando_modelo' name='botao' class="btn btn-dark">Enviar</button>
             </div>
         </form>
     </div>
-{% endif %}
+
 
 {% include "global/partials/fim.html" %}

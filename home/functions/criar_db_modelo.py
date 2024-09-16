@@ -52,3 +52,20 @@ def retirar(nome_modelo):
         ref_variavel = json.loads(var[1])
         defal_var = json.loads(var[2])
     return (variavel,ref_variavel,defal_var)
+
+def modificar(nome,dados,ref_dados,default_var):
+    connection = sqlite3.connect(DB_FILE)
+    cursor = connection.cursor()
+    lista_convert_dados = json.dumps(dados)
+    lista_convert_ref = json.dumps(ref_dados) 
+    lista_convert_defal = json.dumps(default_var)
+    print(lista_convert_defal,lista_convert_ref,lista_convert_dados,nome,sep='\n')
+    cursor.execute('''
+    UPDATE modelos
+    SET default_variaveis = ?, ref_variaveis = ?, variaveis = ?
+    WHERE name = ?;
+''', (lista_convert_defal,lista_convert_ref,lista_convert_dados,nome)
+    )
+    connection.commit()
+    cursor.close()
+    connection.close()
