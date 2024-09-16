@@ -59,7 +59,6 @@ def modificar(nome,dados,ref_dados,default_var):
     lista_convert_dados = json.dumps(dados)
     lista_convert_ref = json.dumps(ref_dados) 
     lista_convert_defal = json.dumps(default_var)
-    print(lista_convert_defal,lista_convert_ref,lista_convert_dados,nome,sep='\n')
     cursor.execute('''
     UPDATE modelos
     SET default_variaveis = ?, ref_variaveis = ?, variaveis = ?

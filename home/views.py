@@ -94,7 +94,6 @@ def modificar(request):
     if request.method == 'POST':
         match request.POST.get('botao'):
             case 'modificando_modelo':
-                print( request.POST)
                 nome = request.POST.get('nome_modelo')
                 variaveis = request.POST.getlist('variavel')
                 ref_variaveis = request.POST.getlist('ref_variavel')
