@@ -29,7 +29,7 @@ def dados(request):
                             context_.update([(chave,valor)])
                             from .functions.criar_db_modelo import retirar
                             dados = retirar(valor)
-                            combinadas = [(dados[1][i], dados[0][i]) for i in range(len(dados[0]))]
+                            combinadas = [(dados[1][i], dados[0][i], dados[2][i]) for i in range(len(dados[0]))]
                             context_.update([('dados_comp',combinadas)])
                             continue
                         case 'caminho_saida':
@@ -50,7 +50,7 @@ def dados(request):
                 
                 from .functions.criar_db_modelo import retirar
                 dados = retirar(nome_modelo)
-                combinadas = [(dados[1][i], dados[0][i]) for i in range(len(dados[0]))]
+                combinadas = [(dados[1][i], dados[0][i], dados[2][i]) for i in range(len(dados[0]))]
                 context_.update([('dados_comp',combinadas)])
 
     return render(
@@ -64,9 +64,11 @@ def criar_model(request):
     if request.method == 'POST':
         match request.POST.get('botao'):
             case 'variaveis_modelo':
+                import string
                 quant_var = int(request.POST.get('quant_var'))
+                a = list(string.ascii_uppercase)
                 nome_modelo = request.POST.get('nome_modelo')
-                context_.update([('quant_var',range(1,quant_var+1)),('nome_modelo', nome_modelo),('formulario_modelo','ok')])
+                context_.update([('quant_var',((n+1, a[n]*3) for n in range(quant_var))),('nome_modelo', nome_modelo),('formulario_modelo','ok')])
             
             case 'criando_modelo':
                 from .functions.alterando_documento import gerando_modelo
@@ -76,12 +78,23 @@ def criar_model(request):
                 nome = request.POST.get('nome_modelo')+'.doc'
                 variaveis = request.POST.getlist('variavel')
                 ref_variaveis = request.POST.getlist('ref_variavel')
+                default_variavel = request.POST.getlist('default_variavel')
                 try:
-                    inserir(nome,variaveis,ref_variaveis)
+                    inserir(nome,variaveis,ref_variaveis,default_variavel)
                 except IntegrityError:
                     context_.update([('error_mensagem', 'JA EXISTE UM MODELO COM ESSE NOME')])
     return render(
         request,
         'home/criar_modelo.html',
+        context_
+    )
+
+def modificar(request):
+    context_ = {'modelos': walk(caminho_modelo)}
+    if request.method == 'POST':
+        print(request.POST)
+    return render(
+        request,
+        'home/modificar_modelo.html',
         context_
     )

@@ -22,5 +22,6 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('dados/', views.dados, name='dados'),
     path('criar_modelo/', views.criar_model, name='criar_modelo'),
+    path('modificar_modelo/', views.modificar, name='modificar'),
     path('admin/', admin.site.urls),
 ]

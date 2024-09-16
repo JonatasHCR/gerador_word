@@ -1,23 +1,8 @@
 {% include "global/partials/head.html" %}
-<div>
-    <form action={% url "criar_modelo" %} method="post">
-        {% csrf_token %}
-        <div class="row g-3">
-            <div class="col">
-                <input type="text" name='nome_modelo' class="form-control" placeholder="Nome do Modelo" aria-label="Nome do Modelo">
-            </div>
-            <div class="col">
-                <input type="text" name= 'quant_var' class="form-control" placeholder="Quantidade de Variaveis" aria-label="Quantidade de Variaveis">
-            </div>
-            <div class="col-md-2">
-                <button type="submit" name="botao" value="variaveis_modelo" class="btn btn-primary">Enviar</button>
-            </div>
-        </div>
-    </form>      
-</div>
+
 {% if formulario_modelo %}
     <div>
-        <form action={% url "criar_modelo" %} method="post">
+        <form action={% url "modificar" %} method="post">
             {% csrf_token %}
             <div class="mb-3 row">
                 <label for="staticEmail" class="col-sm-2 col-form-label">Modelo</label>
@@ -39,9 +24,9 @@
               </div>
             {% for campos in quant_var %}
             <div class="row">
-                <label for="staticEmail" class="col-sm-2 col-form-label">Variavel: {{campos.0}}</label>
+                <label for="staticEmail" class="col-sm-2 col-form-label">Variavel: {{campos}}</label>
                 <div class="col">
-                  <input type="text" class="form-control" name="variavel" value='{{campos.1}}' placeholder="Nome da Variavel" aria-label="Nome da Variavel">
+                  <input type="text" class="form-control" name="variavel" placeholder="Nome da Variavel" aria-label="Nome da Variavel">
                 </div>
                 <div class="col">
                   <input type="text" class="form-control" name="ref_variavel" placeholder="Referencia da Variavel" aria-label="Referencia da Variavel">
@@ -57,14 +42,5 @@
         </form>
     </div>
 {% endif %}
-{% if error_mensagem %}
-    <div>
-        <div class="alert alert-danger d-flex align-items-center" role="alert">
-            <svg class="bi flex-shrink-0 me-2" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
-            <div>
-                {{error_mensagem}}
-            </div>
-        </div>
-    </div>
-{% endif %}
+
 {% include "global/partials/fim.html" %}

@@ -18,23 +18,25 @@ def criar_banco():
         'id INTEGER PRIMARY KEY AUTOINCREMENT,'
         'name TEXT UNIQUE NOT NULL,'
         'variaveis TEXT,'
-        'ref_variaveis TEXT'
+        'ref_variaveis TEXT,'
+        'default_variaveis TEXT'
         ')'
     )
     connection.commit()
     cursor.close()
     connection.close()
 
-def inserir(nome,dados,ref_dados):
+def inserir(nome,dados,ref_dados,default_var):
     criar_banco()
     connection = sqlite3.connect(DB_FILE)
     cursor = connection.cursor()
     lista_convert_dados = json.dumps(dados)
     lista_convert_ref = json.dumps(ref_dados) 
+    lista_convert_defal = json.dumps(default_var) 
 
     cursor.execute('''
-    INSERT INTO modelos (name,variaveis,ref_variaveis) VALUES (?,?,?)
-''', (nome, lista_convert_dados,lista_convert_ref)
+    INSERT INTO modelos (name,variaveis,ref_variaveis,default_variaveis) VALUES (?,?,?,?)
+''', (nome, lista_convert_dados,lista_convert_ref,lista_convert_defal,)
     )
     connection.commit()
     cursor.close()
@@ -43,9 +45,10 @@ def inserir(nome,dados,ref_dados):
 def retirar(nome_modelo):
     connection = sqlite3.connect(DB_FILE)
     cursor = connection.cursor()
-    cursor.execute('SELECT variaveis,ref_variaveis FROM modelos WHERE name = ?',(nome_modelo,))
+    cursor.execute('SELECT variaveis,ref_variaveis,default_variaveis FROM modelos WHERE name = ?',(nome_modelo,))
     resultado = cursor.fetchall()
     for var in resultado:
         variavel = json.loads(var[0])
         ref_variavel = json.loads(var[1])
-    return (variavel,ref_variavel)
+        defal_var = json.loads(var[2])
+    return (variavel,ref_variavel,defal_var)

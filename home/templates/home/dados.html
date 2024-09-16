@@ -8,15 +8,10 @@
           <input type="text" readonly class="form-control-plaintext" name="nome_modelo" id="staticEmail" value= {{nome_modelo}}>
         </div>
     </div>
-    {% for ref,val in dados_comp %}
+    {% for ref,val,defal in dados_comp %}
     <div class="input-group mb-3">
         <label for="staticEmail" class="col-sm-2 col-form-label">{{ref}}</label>
-        {% if valor_antes %}
-        <div class="input-group-text">
-          <input class="form-check-input mt-0" type="checkbox" value={{valor_antes}} aria-label="Checkbox for following text input">
-        </div>
-        {% endif %}
-        <input type="text" class="form-control" name={{val}} aria-label="Text input with checkbox">
+        <input type="text" class="form-control" name={{val}} value='{{defal}}' aria-label="Text input with checkbox">
     </div>
     
     {% endfor %}
