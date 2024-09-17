@@ -63,22 +63,12 @@ class FormatAll:#classe onde serão feitas todas as formatações necessárias(n
                 reais = num2words(int(reais),lang='pt-br') +' reais e '
                 centavos = num2words(int(centavos),lang='pt-br')+ ' centavos'
                 dinheiro_escrito: str = reais + centavos
-                #caso especial tinha que ter a , depois de mil, milhão
-                dinheiro_escrito = dinheiro_escrito.replace('mil','mil,')
-                dinheiro_escrito = dinheiro_escrito.replace('milhões', 'milhões,')
-                dinheiro_escrito = dinheiro_escrito.replace('milhão','milhão,')
                 return dinheiro_escrito
             else:
                 dinheiro_escrito = num2words(int(reais),lang='pt-br') + ' reais'
-                dinheiro_escrito = dinheiro_escrito.replace('mil','mil,')
-                dinheiro_escrito = dinheiro_escrito.replace('milhões', 'milhões,')
-                dinheiro_escrito = dinheiro_escrito.replace('milhão','milhão,')
                 return dinheiro_escrito
 
         dinheiro_escrito = num2words(int(dinheiro),lang='pt-br') + ' reais'
-        dinheiro_escrito = dinheiro_escrito.replace('mil','mil,')
-        dinheiro_escrito = dinheiro_escrito.replace('milhões', 'milhões,')
-        dinheiro_escrito = dinheiro_escrito.replace('milhão','milhão,')
         return dinheiro_escrito
 
     def format_dinheiro(self,dinheiro:str):#Apenas garantindo que tenha R$ e ','  no dinheiro

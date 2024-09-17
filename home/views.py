@@ -49,10 +49,15 @@ def dados(request):
                 context_.update([('nome_modelo',nome_modelo)])
                 
                 from .functions.criar_db_modelo import retirar
-                dados = retirar(nome_modelo)
-                combinadas = [(dados[1][i], dados[0][i], dados[2][i]) for i in range(len(dados[0]))]
-                context_.update([('dados_comp',combinadas)])
-
+                from sqlite3 import OperationalError
+                try:
+                    dados = retirar(nome_modelo)
+                    combinadas = [(dados[1][i], dados[0][i], dados[2][i]) for i in range(len(dados[0]))]
+                    context_.update([('dados_comp',combinadas)])
+                except OperationalError:
+                    context_.update([('error_mensagem', 'A TABELA NÃO FOI CRIADA AINDA')])
+                except UnboundLocalError:
+                    context_.update([('error_mensagem', 'NÃO EXISTE ESSE MODELO NO BANCO DE DADOS')])
     return render(
         request,
         'home/dados.html',
@@ -94,20 +99,33 @@ def modificar(request):
     if request.method == 'POST':
         match request.POST.get('botao'):
             case 'modificando_modelo':
-                nome = request.POST.get('nome_modelo')
+                nome_velho = request.POST.get('nome_modelo_antigo')
+                nome_novo = request.POST.get('nome_modelo')
                 variaveis = request.POST.getlist('variavel')
                 ref_variaveis = request.POST.getlist('ref_variavel')
                 default_variavel = request.POST.getlist('default_variavel')
                 
                 from .functions.criar_db_modelo import modificar
-                modificar(nome,variaveis,ref_variaveis,default_variavel)
+                from sqlite3 import OperationalError
+                try:
+                    modificar(nome_velho,variaveis,ref_variaveis,default_variavel,nome_novo)
+                except OperationalError:
+                    context_.update([('error_mensagem', 'A TABELA NÃO FOI CRIADA AINDA')])
+                except UnboundLocalError:
+                    context_.update([('error_mensagem', 'NÃO EXISTE ESSE MODELO NO BANCO DE DADOS')])
 
             case _:
                 nome_modelo = request.POST.get('botao')
                 from .functions.criar_db_modelo import retirar
-                dados = retirar(nome_modelo)
-                combinadas = [(dados[1][i], dados[0][i], dados[2][i]) for i in range(len(dados[0]))]
-                context_.update([('dados_comp',combinadas),('nome_modelo', nome_modelo)])
+                from sqlite3 import OperationalError
+                try:
+                    dados = retirar(nome_modelo)
+                    combinadas = [(dados[1][i], dados[0][i], dados[2][i]) for i in range(len(dados[0]))]
+                    context_.update([('dados_comp',combinadas),('nome_modelo', nome_modelo)])
+                except OperationalError:
+                    context_.update([('error_mensagem', 'A TABELA NÃO FOI CRIADA AINDA')])
+                except UnboundLocalError:
+                    context_.update([('error_mensagem', 'NÃO EXISTE ESSE MODELO NO BANCO DE DADOS')])
     return render(
         request,
         'home/modificar_modelo.html',

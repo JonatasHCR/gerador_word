@@ -1,5 +1,5 @@
 {% include "global/partials/head.html" %}
-
+{% if not error_mensagem %}
 <form action={% url "dados" %} method="post">
     {% csrf_token %}
     <div class="mb-3 row">
@@ -33,4 +33,14 @@
         <button type="submit" value='formulario_dados' name='botao' class="btn btn-dark">Enviar</button>
     </div>
 </form>
+{% else %}
+    <div>
+        <div class="alert alert-danger d-flex align-items-center" role="alert">
+            <svg class="bi flex-shrink-0 me-2" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+            <div>
+                {{error_mensagem}}
+            </div>
+        </div>
+    </div>
+{% endif %}
 {% include "global/partials/fim.html" %}

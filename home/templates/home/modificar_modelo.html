@@ -1,12 +1,17 @@
 {% include "global/partials/head.html" %}
-
+{% if not error_mensagem %}
     <div>
         <form action={% url "modificar" %} method="post">
             {% csrf_token %}
             <div class="mb-3 row">
                 <label for="staticEmail" class="col-sm-2 col-form-label">Modelo</label>
                 <div class="col-sm-10">
-                    <input type="text" readonly class="form-control-plaintext" name="nome_modelo" id="staticEmail" value={% block nome_modelo %}{{nome_modelo}}{% endblock nome_modelo %}>
+                    <input type="text" readonly class="form-control-plaintext" id="staticEmail" name="nome_modelo_antigo" value='{{nome_modelo}}'>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="nome_modelo" value={% block nome_modelo %}{{nome_modelo}}{% endblock nome_modelo %}>
                 </div>
             </div>
             {% for campos in dados_comp %}
@@ -28,6 +33,15 @@
             </div>
         </form>
     </div>
-
+{% else %}
+    <div>
+        <div class="alert alert-danger d-flex align-items-center" role="alert">
+            <svg class="bi flex-shrink-0 me-2" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+            <div>
+                {{error_mensagem}}
+            </div>
+        </div>
+    </div>
+{% endif %}
 
 {% include "global/partials/fim.html" %}
